@@ -26,6 +26,8 @@ target/
 *.rar
 *.md
 *.mdc
+*.md
+*.mdc
 
 # Env
 .env
