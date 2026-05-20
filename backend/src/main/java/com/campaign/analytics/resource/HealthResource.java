@@ -9,7 +9,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@ApplicationPath("/api")
 @Path("/health")
 @Produces(MediaType.APPLICATION_JSON)
 public class HealthResource {
