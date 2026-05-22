@@ -15,6 +15,7 @@ public class JaxRsApplication extends Application {
         classes.add(MultiPartFeature.class);
         classes.add(com.campaign.analytics.resource.HealthResource.class);
         classes.add(com.campaign.analytics.resource.MetricsResource.class);
+        classes.add(com.campaign.analytics.resource.MetricsImportResource.class);
         return classes;
     }
 }

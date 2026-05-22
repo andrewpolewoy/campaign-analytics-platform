@@ -1,7 +1,6 @@
 CREATE OR REPLACE VIEW v_event_normalized AS
 SELECT
     uid,
-    reg_time,
     tag AS raw_tag,
     CASE tag
         WHEN 'vregistration' THEN 'registration'

@@ -63,7 +63,7 @@ public class CsvImportService {
             String copySql = """
                         COPY impression_event (
                             uid,
-                            raw_tag
+                            tag
                         )
                         FROM STDIN
                         WITH (
