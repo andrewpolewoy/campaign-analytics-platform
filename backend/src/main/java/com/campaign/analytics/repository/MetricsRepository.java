@@ -21,21 +21,21 @@ public class MetricsRepository {
 
     private static final String SELECT_TIMESERIES = """
             SELECT metric_time, normalized_tag, impressions, clicks, events, ctr, evpm
-            FROM mv_metrics_timeseries
+            FROM mv_timeseries
             WHERE ? IS NULL OR normalized_tag = ?
             ORDER BY metric_time, normalized_tag
             """;
 
     private static final String SELECT_SITE = """
             SELECT site_id, normalized_tag, impressions, clicks, events, ctr, evpm
-            FROM mv_metrics_site
+            FROM mv_site
             WHERE ? IS NULL OR normalized_tag = ?
             ORDER BY site_id, normalized_tag
             """;
 
     private static final String SELECT_DMA = """
             SELECT mm_dma, normalized_tag, impressions, clicks, events, ctr, evpm
-            FROM mv_metrics_dma
+            FROM mv_dma
             WHERE ? IS NULL OR normalized_tag = ?
             ORDER BY mm_dma, normalized_tag
             """;
@@ -114,6 +114,15 @@ public class MetricsRepository {
             }
         } catch (SQLException exception) {
             throw new MetricsQueryException("Failed to load DMA metrics", exception);
+        }
+    }
+
+    public void refreshMaterializedViews() {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT refresh_metrics_views()")) {
+            stmt.execute();
+        } catch (SQLException e) {
+            throw new MetricsQueryException("Failed to refresh materialized views", e);
         }
     }
 
