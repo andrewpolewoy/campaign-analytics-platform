@@ -11,22 +11,29 @@
   <packaging>war</packaging>
 
   <properties>
-    <jakartaee.version>10.0.0</jakartaee.version>
-    <payara.version>6.2024.12</payara.version>
-    <flyway.version>10.22.0</flyway.version>
-    <postgresql.version>42.7.3</postgresql.version>
-    <junit.version>5.10.2</junit.version>
-    <jboss.version>6.2.5.Final</jboss.version>
-    <jersey.version>3.1.9</jersey.version>
-
+    <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.release>17</maven.compiler.release>
 
+    <jakartaee.version>10.0.0</jakartaee.version>
+    <payara.version>6.2024.10</payara.version>
+    <postgresql.version>42.7.3</postgresql.version>
+    <flyway.version>10.22.0</flyway.version>
+    <jersey.version>3.1.9</jersey.version>
+
+    <junit.version>5.10.2</junit.version>
+    <mockito.version>5.6.0</mockito.version>
+    <mockito.junit.version>5.6.0</mockito.junit.version>
+    <testcontainers.version>1.19.3</testcontainers.version>
+    <restassured.version>5.3.2</restassured.version>
+
+    <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
+    <maven.war.plugin.version>3.4.0</maven.war.plugin.version>
+    <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
+    <payara.micro.plugin.version>2.1</payara.micro.plugin.version>
   </properties>
 
   <dependencies>
-
     <dependency>
       <groupId>jakarta.platform</groupId>
       <artifactId>jakarta.jakartaee-api</artifactId>
@@ -53,6 +60,12 @@
     </dependency>
 
     <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-multipart</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <version>${junit.version}</version>
@@ -60,22 +73,49 @@
     </dependency>
 
     <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-multipart</artifactId>
-      <version>${jersey.version}</version>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito.version}</version>
+      <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>${mockito.junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version> 1.20.4</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>${restassured.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
     <finalName>campaign-analytics</finalName>
 
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.13.0</version>
+        <version>${maven.compiler.plugin.version}</version>
         <configuration>
           <release>${maven.compiler.release}</release>
         </configuration>
@@ -84,19 +124,19 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>3.4.0</version>
+        <version>${maven.war.plugin.version}</version>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
+        <version>${maven.surefire.plugin.version}</version>
       </plugin>
 
       <plugin>
         <groupId>fish.payara.maven.plugins</groupId>
         <artifactId>payara-micro-maven-plugin</artifactId>
-        <version>2.1</version>
+        <version>${payara.micro.plugin.version}</version>
         <configuration>
           <payaraVersion>${payara.version}</payaraVersion>
           <deployWar>true</deployWar>
@@ -110,16 +150,13 @@
         <version>${flyway.version}</version>
         <configuration>
           <url>jdbc:postgresql://localhost:5432/campaign</url>
-
           <user>analytics</user>
           <password>analytics</password>
-
           <locations>
             <location>filesystem:src/main/resources/db/migration</location>
           </locations>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
 
