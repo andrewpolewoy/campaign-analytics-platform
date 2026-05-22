@@ -76,13 +76,9 @@ public class CsvImportService {
         }
     }
 
-    public void fullImportAndRefresh(
-            InputStream impressionsCsv,
-            InputStream eventsCsv
-    ) throws Exception {
-
-        importImpressions(impressionsCsv);
-        importEvents(eventsCsv);
-        metricsRepository.refreshMaterializedViews();
+    public void refreshMaterializedViews() throws Exception {
+        try (Connection conn = dataSource.getConnection()) {
+            metricsRepository.refreshMaterializedViews();
+        }
     }
 }

@@ -8,6 +8,9 @@ SELECT
         WHEN 'vinstall' THEN 'install'
         WHEN 'vcontent' THEN 'content'
         WHEN 'fclick' THEN 'click'
+        WHEN 'vmisc' THEN 'misc'
+        WHEN 'vlead' THEN 'lead'
+        WHEN 'vsignup' THEN 'signup'
         ELSE tag
     END AS normalized_tag
 FROM impression_event;
